@@ -1,0 +1,17 @@
+@page "/example"
+@attribute [PiralComponent]
+@inject IStringLocalizer<Translations> _translations
+@inject IPiletService _piletService
+@inject IJSRuntime _jsRuntime
+
+<div>
+    <button @onclick=@(() => SetLanguage("de-DE"))>DE</button>
+    <button @onclick=@(() => SetLanguage("en-GB"))>EN</button>
+</div>
+
+@code {
+    void SetLanguage(string language)
+    {
+        _jsRuntime.InvokeVoidAsync("window.App.setLanguage", language);
+    }
+}

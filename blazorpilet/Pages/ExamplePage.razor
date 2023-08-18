@@ -1,0 +1,25 @@
+@page "/example"
+@inject IStringLocalizer<Translations> _translations
+@inject IPiletService _piletService
+@implements IDisposable
+
+<div>
+    <h1>@_translations["Headline"]</h1>
+    <p>@_translations["Content"]</p>
+    <p><strong>@_translations["CurrentLanguage"]: </strong>@CultureInfo.CurrentCulture.DisplayName</p>
+    <LanguageSwitcher />
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _piletService.LanguageChanged += LanguageChangedhandler;
+    }
+    public void Dispose()
+    {
+        _piletService.LanguageChanged -= LanguageChangedhandler;
+    }
+    private void LanguageChangedhandler(object? s, EventArgs e)
+        => StateHasChanged(); 
+}
